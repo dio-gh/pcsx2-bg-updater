@@ -22,8 +22,9 @@ res = req.get(API_ENDPOINT, params={'per_page': '1'}).json()[0]
 if str(res["id"]) != LAST_UPDATE:
 
     # retrieve the update archive
-    update_blob = req.get(res["assets"][2]["browser_download_url"])
-    update_fname = res["assets"][2]["name"]
+    asset = next(filter(lambda x : 'AVX2.7z' in x["name"], res["assets"]))
+    update_blob = req.get(asset["browser_download_url"])
+    update_fname = asset["name"]
     open(update_fname, 'wb').write(update_blob.content)
 
     # extract the update archive
