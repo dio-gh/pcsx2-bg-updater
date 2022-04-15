@@ -1,7 +1,7 @@
 import requests as req
 import subprocess, re, os, winreg
 
-LAST_UPDATE = '64564399'
+LAST_UPDATE = '64564048'
 RLS_ID_PATTERN = r'[0-9]{8}'
 
 API_ENDPOINT = 'https://api.github.com/repos/PCSX2/pcsx2/releases'
