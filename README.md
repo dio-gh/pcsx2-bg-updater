@@ -64,4 +64,4 @@ The script won't work on Unix-like systems right now. Wouldn't take much to fix 
 
 ## Notes and limitations
 
-This script will only work as long as the build archive names match the current format, specifically till they include the word `AVX2`.
+This script will only work as long as the build archive names match the current format, specifically till they end on `AVX2.7z`.
