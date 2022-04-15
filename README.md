@@ -54,7 +54,7 @@ pip install requests
    * on the `Conditions` tab, check the `only if network connection is available` (optional)
    * click `OK` to finalize the task
 
-If you've done everything correctly, you'll no longer be prompted to update PCSX2 on startup, nor will it forcefully update on every launch. Instead, the emulator will be kept up-to-date by this script, periodically polling for updates, and applying them as they come, seamlessly.
+If you've done everything correctly, the emulator will be kept up-to-date by this script, periodically polling for updates, and applying them as they come, seamlessly.
 
 </details>
 
