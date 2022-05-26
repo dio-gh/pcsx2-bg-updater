@@ -4,7 +4,7 @@ import subprocess, re, os, winreg
 LAST_UPDATE = '64564048'
 RLS_ID_PATTERN = r'[0-9]{8}'
 
-API_ENDPOINT = 'https://api.github.com/repos/PCSX2/pcsx2/releases'
+API_ENDPOINT = 'https://api.github.com/repos/dio-gh/pcsx2/releases'
 
 # ensure correct working dir
 os.chdir(os.path.dirname(__file__))
@@ -21,22 +21,25 @@ res = req.get(API_ENDPOINT, params={'per_page': '1'}).json()[0]
 # when the release ID is not the same as the one stored locally, pull
 if str(res["id"]) != LAST_UPDATE:
 
-    # retrieve the update archive
-    asset = next(filter(lambda x : 'AVX2.7z' in x["name"], res["assets"]))
-    update_blob = req.get(asset["browser_download_url"])
-    update_fname = asset["name"]
-    open(update_fname, 'wb').write(update_blob.content)
+    assets = [next(filter(lambda x : 'AVX2-wxWidgets.7z' in x["name"], res["assets"])),
+              next(filter(lambda x : 'AVX2-Qt.7z' in x["name"], res["assets"]))]
 
-    # extract the update archive
-    si = subprocess.STARTUPINFO()
-    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-    extraction_proc = subprocess.Popen(
-        [extractor, 'x', '-y', update_fname],
-        startupinfo=si)
-    extraction_status = extraction_proc.wait()
+    for asset in assets:
+        # retrieve the update archive
+        update_blob = req.get(asset["browser_download_url"])
+        update_fname = asset["name"]
+        open(update_fname, 'wb').write(update_blob.content)
 
-    # erase the update archive
-    os.remove(update_fname)
+        # extract the update archive
+        si = subprocess.STARTUPINFO()
+        si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        extraction_proc = subprocess.Popen(
+            [extractor, 'x', '-y', update_fname],
+            startupinfo=si)
+        extraction_status = extraction_proc.wait()
+
+        # erase the update archive
+        os.remove(update_fname)
 
     # on success, update the last update's ID based on the update's filename
     if extraction_status == 0:
